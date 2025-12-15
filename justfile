@@ -17,7 +17,7 @@ win64:
     if (-Not (Test-Path go.mod)) {
       go mod init {{mod_name}}
     }
-    go mod tidy -go 1.24 -v
+    go mod tidy -go 1.25.0 -v
     if(-Not $?) { exit }
     if (-Not (Test-Path "{{dist}}")) { New-Item -ItemType Directory -Force -Path "{{dist}}" | Out-Null }
     Remove-Item -Force -ErrorAction SilentlyContinue -LiteralPath "{{dist}}\{{exe_name}}.exe","{{dist}}\{{exe_name}}_64.exe"

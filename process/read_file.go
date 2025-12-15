@@ -15,9 +15,6 @@ func (k *Krinica) ReadFile(f string) error {
 	return nil
 }
 
-var Koroba map[string][]string
-var CIS map[string]string
-
 type Record struct {
 	Cis   *utility.CisInfo
 	Korob string
@@ -55,7 +52,7 @@ func (k *Krinica) workTxtFile(file string) error {
 		}
 
 		if _, exist := k.CisAll[rec.Cis.Cis]; exist {
-			return fmt.Errorf("коробка %s марка %s дубль", rec.Korob, rec.Cis)
+			return fmt.Errorf("коробка %s марка %s дубль", rec.Korob, rec.Cis.Cis)
 		}
 		if _, exist := k.Pallet[rec.Korob]; !exist {
 			k.Pallet[rec.Korob] = make([]*utility.CisInfo, 0)

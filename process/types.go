@@ -13,18 +13,18 @@ import (
 // const startSSCC = "1462709225" // gs1 rus id zapivkom для памяти запивком
 
 type Krinica struct {
-	logger   *zap.SugaredLogger
-	dbCfg    *configdb.DbConfig
-	dbZnak   *znakdb.DbZnak
-	gtin     string
-	inn      string
-	Sscc     []string
-	Cis      []*utility.CisInfo
-	Pallet   map[string][]*utility.CisInfo
-	warnings []string
-	errors   []string
-	Koroba   map[string][]string
-	CisAll   map[string]string
+	logger *zap.SugaredLogger
+	dbCfg  *configdb.DbConfig
+	dbZnak *znakdb.DbZnak
+	gtin   string
+	inn    string
+	// Sscc     []string
+	Cis    []*utility.CisInfo
+	Pallet map[string][]*utility.CisInfo
+	// warnings []string
+	// errors   []string
+	// Koroba   map[string][]string
+	CisAll map[string]string
 }
 
 func New(dbs *dbscan.Dbs) (*Krinica, error) {
@@ -54,36 +54,22 @@ func New(dbs *dbscan.Dbs) (*Krinica, error) {
 		return nil, fmt.Errorf("find inn error %w", err)
 	}
 	if inn == "" {
-		return nil, fmt.Errorf("inn config.db empty error %w", err)
+		return nil, fmt.Errorf("inn config.db empty error")
 	}
 	k := &Krinica{
-		logger:   logger.Sugar(),
-		dbCfg:    dbCfg,
-		dbZnak:   dbZnak,
-		inn:      inn,
-		Pallet:   make(map[string][]*utility.CisInfo),
-		warnings: make([]string, 0),
-		errors:   make([]string, 0),
-		Sscc:     make([]string, 0),
-		Cis:      make([]*utility.CisInfo, 0),
+		logger: logger.Sugar(),
+		dbCfg:  dbCfg,
+		dbZnak: dbZnak,
+		inn:    inn,
+		Pallet: make(map[string][]*utility.CisInfo),
+		// warnings: make([]string, 0),
+		// errors:   make([]string, 0),
+		// Sscc:     make([]string, 0),
+		Cis: make([]*utility.CisInfo, 0),
+		// Koroba:   make(map[string][]string),
+		CisAll: make(map[string]string),
 	}
 	return k, nil
-}
-
-func (k *Krinica) AddWarn(warn string) {
-	k.warnings = append(k.warnings, warn)
-}
-
-func (k *Krinica) Warnings() []string {
-	return k.warnings
-}
-
-func (k *Krinica) AddError(err string) {
-	k.errors = append(k.errors, err)
-}
-
-func (k *Krinica) Errors() []string {
-	return k.errors
 }
 
 func (k *Krinica) ResetPalletMap() {
@@ -95,7 +81,4 @@ func (k *Krinica) ResetPalletMap() {
 func (k *Krinica) Reset() {
 	k.ResetPalletMap()
 	k.Cis = make([]*utility.CisInfo, 0)
-	k.Sscc = make([]string, 0)
-	k.errors = make([]string, 0)
-	k.warnings = make([]string, 0)
 }
