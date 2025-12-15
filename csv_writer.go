@@ -3,8 +3,6 @@ package main
 import (
 	"encoding/csv"
 	"io"
-	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -35,16 +33,16 @@ func NewWriter(w io.Writer) (writer *csv.Writer) {
 	return
 }
 
-func saveCsvCustom(name string, data [][]string) error {
-	name = filepath.Join(outDir, name)
-	file, err := os.Create(name)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+// func saveCsvCustom(name string, data [][]string) error {
+// 	name = filepath.Join(outDir, name)
+// 	file, err := os.Create(name)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	defer file.Close()
 
-	writer := csv.NewWriter(file)
-	writer.Comma = '\t'
-	writer.WriteAll(data) // calls Flush internally
-	return writer.Error()
-}
+// 	writer := csv.NewWriter(file)
+// 	writer.Comma = '\t'
+// 	writer.WriteAll(data) // calls Flush internally
+// 	return writer.Error()
+// }
